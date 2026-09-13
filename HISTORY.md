@@ -55,16 +55,6 @@ Orchestration + validar integração/compatibilidade com a versão mais recente.
   https://github.com/camillapoles/pocketbase-skills/releases/tag/v1.0.0
   (asset: pocketbase-skills-v1.0.0.zip)
 
-## Estado para a próxima sessão
-
-- main = v1.0.0 (registry + gates + compat PB 0.40.4 / SDK 0.28.1).
-- Débitos abertos: nenhum bloqueante. Candidatos:
-  - `pocketbase-best-practices` metadata `meta.upstream` aponta para o repo
-    upstream de origem (greendesertsnow/pocketbase-skills) — manter sync ou
-    fork-policy explícita se o cluster divergir.
-  - Suggest: cobrir `pb-react-spa` com capability de realtime/hooks quando
-    o conteúdo da skill ganhar exemplos de subscription.
-- Próximo incremento segue R1–R9 a partir de main atualizado.
 
 **Spec do incremento (M==N):**
 1. index.json parseia; lista 3 skills; compatibility declarada
@@ -88,3 +78,18 @@ Orchestration + validar integração/compatibilidade com a versão mais recente.
 - Resultado local final: Registry ✓ · bootstrap --check ✓ · Compat ✓ (PB
   0.40.4 · SDK 0.28.1, conferido contra a API) · Sintaxe ✓ (4 JSON, YAML,
   bash -n, compileall).
+
+## Estado para a próxima sessão
+
+- main = v1.0.0 (registry + gates + compat PB 0.40.4 / SDK 0.28.1).
+- Débitos abertos: nenhum bloqueante. Candidatos:
+  - `pocketbase-best-practices` metadata `meta.upstream` aponta para o repo
+    upstream de origem (greendesertsnow/pocketbase-skills) — manter sync ou
+    fork-policy explícita se o cluster divergir.
+  - Suggest: cobrir `pb-react-spa` com capability de realtime/hooks quando
+    o conteúdo da skill ganhar exemplos de subscription.
+- Próximo incremento segue R1–R9 a partir de main atualizado.
+
+> Convenção do WAL: o bloco `## Estado para a próxima sessão` fica SEMPRE
+> no fim do arquivo — o `tail` do `iniciar-sessao.sh` é o que a próxima
+> sessão vê primeiro.
