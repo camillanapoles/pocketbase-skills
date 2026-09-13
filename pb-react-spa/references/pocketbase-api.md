@@ -1,0 +1,1 @@
+../../pocketbase/references/api-rules-guide.md

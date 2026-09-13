@@ -1,0 +1,31 @@
+{
+  "skill_name": "pb-react-spa",
+  "version": "1.0.0",
+  "entrypoint": "./SKILL.md",
+  "summary": "SPA React para consumir PocketBase: Vite + TanStack Router + TanStack Query + Tailwind/shadcn + Biome, com JS SDK, typegen, padrões de auth e deployment.",
+  "dependencies": ["pocketbase"],
+  "capabilities": [
+    "scaffold-frontend",
+    "generate-hooks",
+    "setup-auth-provider",
+    "typegen",
+    "deployment"
+  ],
+  "compatibility": {
+    "pocketbase": ">=0.23",
+    "js_sdk": ">=0.26"
+  },
+  "provides": {
+    "references": "references/"
+  },
+  "symlinks": [
+    {
+      "path": "pb-react-spa/references/pocketbase-api.md",
+      "target": "pocketbase/references/api-rules-guide.md"
+    },
+    {
+      "path": "pb-react-spa/references/best-practices.md",
+      "target": "pocketbase-best-practices/SKILL.md"
+    }
+  ]
+}

@@ -143,7 +143,7 @@ RUN npm run build
 
 # ---- Stage 2: Runtime ----
 FROM alpine:3.21
-ARG PB_VERSION=0.28.2
+ARG PB_VERSION=0.40.4
 ARG TARGETARCH
 
 RUN apk add --no-cache ca-certificates curl unzip \

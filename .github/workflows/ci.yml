@@ -1,0 +1,86 @@
+# CI — Gates do cluster pocketbase-skills (fail-closed)
+# Checks required (nomes exatos usados na proteção de main):
+#   1. "Sintaxe (JSON/YAML/Shell/Python)"
+#   2. "Gate - Registry"
+#   3. "Gate - Compat"
+name: CI — Validação por Commit
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  sintaxe:
+    name: Sintaxe (JSON/YAML/Shell/Python)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: JSON parseia (index + metadata)
+        run: |
+          python - <<'PY'
+          import glob, json, sys
+          files = ['index.json'] + glob.glob('*/metadata.json')
+          assert files, 'ERRO: nenhum metadata.json encontrado'
+          for f in files:
+              json.load(open(f, encoding='utf-8'))
+          print(f'OK: {len(files)} JSON válido(s)')
+          PY
+      - name: Workflows YAML parseiam
+        run: |
+          pip install -q pyyaml
+          python -c "
+          import glob, yaml
+          for f in glob.glob('.github/workflows/*.yml'):
+              yaml.safe_load(open(f))
+          print('OK: workflows YAML válido(s)')
+          "
+      - name: Shell scripts passam bash -n
+        run: |
+          fail=0
+          while IFS= read -r f; do
+            bash -n "$f" || { echo "ERRO: $f"; fail=1; }
+          done < <(find . -name '*.sh' -not -path './.git/*')
+          [ "$fail" = 0 ] && echo "OK: bash -n em todos os .sh"
+          exit $fail
+      - name: Python compila
+        run: |
+          python -m compileall -q pocketbase scripts
+          echo "OK: compileall pocketbase scripts"
+
+  gate-registry:
+    name: Gate - Registry
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Integridade do registry (index <-> metadata <-> DAG <-> symlinks)
+        run: python3 scripts/validate-registry.py
+      - name: Orquestrador em modo verificação
+        run: bash scripts/bootstrap-project.sh --check
+
+  gate-compat:
+    name: Gate - Compat
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compatibilidade com versões mais recentes upstream
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: bash scripts/validate-compat.sh

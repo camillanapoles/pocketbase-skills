@@ -1,0 +1,26 @@
+{
+  "skill_name": "pocketbase",
+  "version": "1.0.0",
+  "entrypoint": "./SKILL.md",
+  "summary": "Operação de backend PocketBase via REST API e Go package mode: CRUD de collections/records, auth de superuser/user, backups, health, migrações (JS/Go), hooks Go e design de API rules/relações/segurança.",
+  "dependencies": [],
+  "capabilities": [
+    "server-setup",
+    "superuser-auth",
+    "collection-management",
+    "record-crud",
+    "backups",
+    "health-check",
+    "migrations",
+    "e2e-testing",
+    "config-management"
+  ],
+  "compatibility": {
+    "pocketbase": ">=0.23"
+  },
+  "provides": {
+    "scripts": "scripts/",
+    "references": "references/",
+    "assets": "assets/"
+  }
+}
