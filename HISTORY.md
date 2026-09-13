@@ -79,9 +79,35 @@ Orchestration + validar integração/compatibilidade com a versão mais recente.
   0.40.4 · SDK 0.28.1, conferido contra a API) · Sintaxe ✓ (4 JSON, YAML,
   bash -n, compileall).
 
+## 2026-09-13 — orchestrator-entry: skill `pocketbase` integrativa
+
+**Contexto:** usuário quer UMA entrada única no harness (estilo
+plugin/extension) — a skill `pocketbase` norteia e despacha para os 3
+diretórios, em vez de 3 skills irmãs expostas.
+
+**Feito (branch `feat/orchestrator-entry`):**
+- Sub-skill `pocketbase` renomeada para **`pocketbase-core`** (git mv;
+  frontmatter, metadata 1.1.0, deps dos outros metadata, symlink target,
+  bootstrap/CI paths, INDEX/README/common_rules).
+- **`SKILL.md` na raiz do cluster** = skill `pocketbase` (entrada
+  integrativa): routing por intenção → sub-skill, context loader N1–N3,
+  regras de ouro, estado/continuidade. `index.json` ganha
+  `entrypoint_skill` e registry_version 1.1.0.
+- Instalação em `~/.agents/skills/` trocada: 3 symlinks → **1 symlink da
+  raiz** (`pocketbase`). omp expõe a entrada integrativa; pi (descoberta
+  recursiva) expõe entrada + sub-skills.
+
+**Spec (M==N):** 1) git mv sem resíduos do nome antigo em código/paths; 2)
+root SKILL.md com frontmatter válido (name/description); 3) index.json
+consistente (Gate - Registry verde); 4) symlink cross-skill resolvendo p/
+pocketbase-core; 5) CI/CD paths atualizados; 6) validators verdes local;
+7) reinstalação única em ~/.agents/skills; 8) HISTORY + INDEX/README coerentes.
+
 ## Estado para a próxima sessão
 
-- main = v1.0.0 (registry + gates + compat PB 0.40.4 / SDK 0.28.1).
+- main = v1.1.0 (entrada integrativa `pocketbase` + sub-skills pocketbase-core
+  / pb-react-spa / pocketbase-best-practices; gates + compat PB 0.40.4 / SDK
+  0.28.1). Instalado em `~/.agents/skills/pocketbase` (1 symlink da raiz).
 - Débitos abertos: nenhum bloqueante. Candidatos:
   - `pocketbase-best-practices` metadata `meta.upstream` aponta para o repo
     upstream de origem (greendesertsnow/pocketbase-skills) — manter sync ou

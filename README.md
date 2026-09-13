@@ -11,9 +11,11 @@ Compatible with the [Agent Skills](https://github.com/vercel-labs/skills) specif
 
 | Skill | Description |
 |-------|-------------|
-| [`pocketbase`](pocketbase/SKILL.md) | Collection CRUD, record CRUD, superuser/user authentication, backup & restore, migration file generation, and design guidance for API rules, relations, and security patterns |
+| [`pocketbase-core`](pocketbase-core/SKILL.md) | Collection CRUD, record CRUD, superuser/user authentication, backup & restore, migration file generation, and design guidance for API rules, relations, and security patterns |
 | [`pb-react-spa`](pb-react-spa/SKILL.md) | React SPA frontend setup for PocketBase — Vite + TanStack Router + TanStack Query + Tailwind/Shadcn UI + Biome |
 | [`pocketbase-best-practices`](pocketbase-best-practices/SKILL.md) | 64 prioritized rules: schema design, API rules, auth, queries, realtime, files, deployment, Go/JSVM extending |
+
+The root [`SKILL.md`](SKILL.md) is the **integrative entry** — a single `pocketbase` skill that routes to the three sub-skills by intent (what omp/pi expose).
 
 ## Scaffolding a full project (backend + optional SPA)
 

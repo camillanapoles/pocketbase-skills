@@ -3,7 +3,7 @@
   "version": "1.4.0",
   "entrypoint": "./SKILL.md",
   "summary": "64 regras em 9 categorias (design de collections, API rules, autenticação, queries, realtime, arquivos, deploy, extending Go/JSVM), priorizadas por impacto e anotadas por versão do PocketBase.",
-  "dependencies": ["pocketbase"],
+  "dependencies": ["pocketbase-core"],
   "capabilities": [
     "collection-design",
     "api-rules",

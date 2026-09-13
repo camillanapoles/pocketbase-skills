@@ -2,7 +2,7 @@
 # ============================================================================
 # bootstrap-project.sh — orquestrador do cluster pocketbase-skills.
 # Coordena as skills para scaffoldear um projeto real:
-#   backend  -> skill `pocketbase` (pb_migrations/ + .env + .gitignore)
+#   backend  -> skill `pocketbase-core` (pb_migrations/ + .env + .gitignore)
 #   frontend -> skill `pb-react-spa` (create-tsrouter-app + SDK + shadcn)
 # Uso:
 #   bootstrap-project.sh --check               # valida registry + assets (CI)
@@ -22,8 +22,8 @@ fi
 if [ "$cmd" = "--check" ]; then
   # Verificações PRÓPRIAS do orquestrador (sem chamar validate-registry.py —
   # o CI os executa como steps independentes; chamada cruzada = recursão).
-  for asset in pocketbase/assets/migration-template.js \
-               pocketbase/assets/migration-template.go; do
+  for asset in pocketbase-core/assets/migration-template.js \
+               pocketbase-core/assets/migration-template.go; do
     [ -f "$ROOT/$asset" ] || { log_err "asset ausente: $asset"; exit 1; }
   done
   [ -f "$ROOT/.shared/logger.sh" ] || { log_err ".shared/logger.sh ausente"; exit 1; }
@@ -46,7 +46,7 @@ fi
 log_info "Scaffolding backend (skill: pocketbase) em $TARGET"
 mkdir -p "$TARGET/pb_migrations"
 TS="$(date +%s)"
-cp "$ROOT/pocketbase/assets/migration-template.js" "$TARGET/pb_migrations/${TS}_init.js"
+cp "$ROOT/pocketbase-core/assets/migration-template.js" "$TARGET/pb_migrations/${TS}_init.js"
 
 cat > "$TARGET/.env.example" <<'EOF'
 PB_URL=http://127.0.0.1:8090
@@ -68,7 +68,7 @@ EOF
 cat > "$TARGET/README.md" <<EOF
 # Projeto PocketBase (scaffold do cluster pocketbase-skills)
 
-- Backend: skill \`pocketbase\` — $ROOT/pocketbase/SKILL.md
+- Backend: skill \`pocketbase-core\` — $ROOT/pocketbase-core/SKILL.md
 - Regras do cluster: $ROOT/GLOBAL_RULES.md
 - Registry / mapa das skills: $ROOT/INDEX.md
 - Práticas e limites de versão: $ROOT/index.json (compatibility)

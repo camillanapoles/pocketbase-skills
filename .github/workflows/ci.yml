@@ -57,8 +57,8 @@ jobs:
           exit $fail
       - name: Python compila
         run: |
-          python -m compileall -q pocketbase scripts
-          echo "OK: compileall pocketbase scripts"
+          python -m compileall -q pocketbase-core scripts
+          echo "OK: compileall pocketbase-core scripts"
 
   gate-registry:
     name: Gate - Registry
