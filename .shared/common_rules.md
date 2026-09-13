@@ -12,14 +12,14 @@ isto para comporem bem uns com os outros.
 | `PB_SUPERUSER_PASSWORD` | operações superuser | — | Auth em `_superusers` |
 | `PB_ENCRYPTION_KEY` | produção | — | 32 chars exatos; criptografa `_params` em repouso |
 
-Scripts Python da skill `pocketbase` leem env vars **ou** `.env` no CWD —
+Scripts Python da skill `pocketbase-core` leem env vars **ou** `.env` no CWD —
 nunca aceitam credenciais por argumento de linha de comando (vazam no shell
 history / `ps`).
 
 ## Convenções de saída de scripts
 
 - Sucesso: JSON válido em stdout, exit 0.
-- Falha: mensagem em stderr, exit ≠ 0 ( scripts `pocketbase/scripts/*.py`
+- Falha: mensagem em stderr, exit ≠ 0 ( scripts `pocketbase-core/scripts/*.py`
   usam `print_result(ok, status, data)` — manter o contrato).
 - Logs de scripts shell usam `.shared/logger.sh` (`log_info/log_ok/log_warn/
   log_err`) — stdout para INFO/OK, stderr para WARN/ERRO.

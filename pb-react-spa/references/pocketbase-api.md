@@ -1,1 +1,1 @@
-../../pocketbase/references/api-rules-guide.md
+../../pocketbase-core/references/api-rules-guide.md

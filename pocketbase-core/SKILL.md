@@ -1,5 +1,5 @@
 ---
-name: pocketbase
+name: pocketbase-core
 description: >-
   Skill for operating PocketBase backend via REST API and Go package mode.
   Provides collection CRUD, record CRUD, superuser/user authentication,
@@ -10,7 +10,7 @@ description: >-
   backend design.
 license: MIT
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
 allowed-tools: Read Write Edit Bash Grep Glob
 ---
 
