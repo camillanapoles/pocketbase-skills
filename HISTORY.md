@@ -47,9 +47,24 @@ Orchestration + validar integração/compatibilidade com a versão mais recente.
     `Gate - Registry` · `Gate - Compat`. CD por tag `v*` com release
     verificado.
 
-**Próximos passos desta sessão:**
-- [ ] push do branch → CI verde 4/4 (3 gates + checkout)
-- [ ] PR (critérios da spec abaixo) → merge → proteger main → tag v1.0.0 → release
+**Próximos passos desta sessão — CONCLUÍDOS:**
+- [x] push do branch → CI verde 3/3 gates (run 34780965975, 10s, success)
+- [x] PR #1 → auto-merge (c3c6464, 2026-09-13T20:31:15Z, sem humano no
+  circuito) → main protegido (3 contexts required, strict, auto-merge ON) →
+  tag v1.0.0 → release verificado (run CD 34781045438):
+  https://github.com/camillapoles/pocketbase-skills/releases/tag/v1.0.0
+  (asset: pocketbase-skills-v1.0.0.zip)
+
+## Estado para a próxima sessão
+
+- main = v1.0.0 (registry + gates + compat PB 0.40.4 / SDK 0.28.1).
+- Débitos abertos: nenhum bloqueante. Candidatos:
+  - `pocketbase-best-practices` metadata `meta.upstream` aponta para o repo
+    upstream de origem (greendesertsnow/pocketbase-skills) — manter sync ou
+    fork-policy explícita se o cluster divergir.
+  - Suggest: cobrir `pb-react-spa` com capability de realtime/hooks quando
+    o conteúdo da skill ganhar exemplos de subscription.
+- Próximo incremento segue R1–R9 a partir de main atualizado.
 
 **Spec do incremento (M==N):**
 1. index.json parseia; lista 3 skills; compatibility declarada
