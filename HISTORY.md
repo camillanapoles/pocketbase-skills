@@ -103,6 +103,34 @@ consistente (Gate - Registry verde); 4) symlink cross-skill resolvendo p/
 pocketbase-core; 5) CI/CD paths atualizados; 6) validators verdes local;
 7) reinstalação única em ~/.agents/skills; 8) HISTORY + INDEX/README coerentes.
 
+## 2026-09-13 — diagnóstico: corrida do auto-merge + limpeza de branches
+
+**Sintoma:** `gh pr merge --auto` falhou com `GraphQL: Pull request is in
+clean status (enablePullRequestAutoMerge)` (PR #4); PR #2 já tinha dado o
+espelho (`not mergeable`) e 4 branches mesclados ficaram no remoto.
+
+**Causa-raiz:** corrida por design do `--auto`. A mutation
+`enablePullRequestAutoMerge` só é aceita enquanto os checks do PR estão
+PENDENTES; se ao emitir o comando o PR já está *clean* (checks verdes —
+caso do #4, mergeado segundos após o create), o GitHub rejeita com "clean
+status" (= "nada a adiar: faça merge direto"). O inverso ocorre quando o
+auto-merge já foi habilitado e dispara: um segundo merge explícito chega
+tarde e recebe "not mergeable" (#2). Nenhum dos dois corrompe estado — o PR
+mergea; o `--delete-branch` é o que se perde na corrida.
+
+**Correção aplicada:** branches mesclados deletados do remoto e local
+(restou só `main`); varredura pós-fix: 6/6 runs success · 0 PRs abertos ·
+tags ↔ releases 1:1 · gates locais verdes · main = b9c41bf.
+
+**Lições operacionais (para merges futuros):**
+- `--auto` + erro "clean status" ⇒ PR já mergeable: repetir com merge
+  DIRETO (`gh pr merge <n> --merge --delete-branch`) — a proteção continua
+  gateando (checks required são pré-condição do merge, não do modo).
+- Erro "not mergeable" após `--auto` ⇒ auto-merge já disparou: só aguardar
+  e conferir `state`, nunca reemitir às cegas.
+- Pós-merge de TODO PR: conferir `git branch -r` — deletar sobras com
+  `git push origin --delete` (falha de push em branch já deletado = benigna).
+
 ## Estado para a próxima sessão
 
 - main = v1.1.0 (entrada integrativa `pocketbase` + sub-skills pocketbase-core
