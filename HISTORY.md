@@ -1,0 +1,75 @@
+# HISTORY — WAL do cluster pocketbase-skills
+
+Nova sessão: leia este arquivo de baixo pra cima (mais recente no fim por
+bloco de data). Cada incremento registra o que fez, evidência e próximos
+passos. É a continuidade entre sessões (nunca de memória).
+
+## 2026-09-13 — bootstrap: remoto + Registry & Orchestration + gates
+
+**Contexto:** cluster local `~/SKILLS/pocketbase` (3 skills) sem remoto, sem
+registry, sem CI. Pedido: criar remoto GitHub + arquitetura Registry &
+Orchestration + validar integração/compatibilidade com a versão mais recente.
+
+**Feito:**
+- Remoto criado: https://github.com/camillanapoles/pocketbase-skills (público
+  — plano free roda Actions só em repo público; conteúdo é docs/scripts,
+  scan de segredos limpo). `main` enviado (e497a5e "init").
+- Compat validada contra releases latest upstream (GitHub API, 2026-09-13):
+  - PocketBase core **v0.40.4** (publicada 2026-09-12) · JS SDK **v0.28.1**
+    (2026-09-05).
+  - `pocketbase/`: endpoints REST dos scripts são superfície pós-v0.23
+    (`_superusers`, `/api/collections/*/records`, `/api/backups`,
+    `/api/health`) — íntegros em v0.40.4. Sem alteração.
+  - `pocketbase-best-practices/`: já curada até v0.40 (ago/2026). Sem
+    alteração de conteúdo; metadata padronizada no schema do cluster.
+  - `pb-react-spa/`: gap real — Docker pin `PB_VERSION=0.28.2` → **0.40.4**
+    (`references/deployment.md`).
+- Registry & Orchestration (branch `feat/registry-orchestration`):
+  - `index.json` — manifesto canônico: 3 skills, capabilities, DAG de deps,
+    symlinks declarados, bloco `compatibility` (normativo).
+  - `INDEX.md` — hub human/LLM-readable: mapa, grafo, context loader N1–N3,
+    workflow do agente, anatomia padrão, receita de adição de skill.
+  - `GLOBAL_RULES.md` — 10 regras globais (registry = verdade, compat = gate,
+    API pós-v0.23, TypeScript, best-practices obrigatórias, segredos em env,
+    sem duplicação entre skills, GitOps, fail-closed, WAL).
+  - `.shared/` — `common_rules.md` (contrato de env vars, convenções de
+    saída, política de versões, cross-referência) + `logger.sh`.
+  - `metadata.json` padronizado nas 3 skills (schema único; cross-check com
+    index.json pelo validator).
+  - Symlinks: `pb-react-spa/references/pocketbase-api.md` →
+    `pocketbase/references/api-rules-guide.md`; `pb-react-spa/references/
+    best-practices.md` → `pocketbase-best-practices/SKILL.md`.
+  - Orquestrador `scripts/bootstrap-project.sh` (--check p/ CI; scaffold real
+    de backend + SPA opcional) e validators `scripts/validate-registry.py`
+    (integridade fail-closed) e `scripts/validate-compat.sh` (versões vs
+    upstream, fail-closed).
+  - CI (3 checks required): `Sintaxe (JSON/YAML/Shell/Python)` ·
+    `Gate - Registry` · `Gate - Compat`. CD por tag `v*` com release
+    verificado.
+
+**Próximos passos desta sessão:**
+- [ ] push do branch → CI verde 4/4 (3 gates + checkout)
+- [ ] PR (critérios da spec abaixo) → merge → proteger main → tag v1.0.0 → release
+
+**Spec do incremento (M==N):**
+1. index.json parseia; lista 3 skills; compatibility declarada
+2. metadata.json padronizado ×3, consistente com index (nome/versão/deps/caps)
+3. DAG acíclico; dependências existem
+4. Symlinks declarados resolvem dentro do repo
+5. GLOBAL_RULES + .shared existem e scripts passam bash -n
+6. validate-registry / bootstrap --check / validate-compat exit 0
+7. Pins PB_VERSION= casam com o minor do index (0.28.2 → 0.40.4 corrigido)
+8. Workflows CI/CD YAML válidos
+9. HISTORY.md (este WAL) + README aponta para INDEX.md
+
+**Achados do pre-flight local (loop vermelho→corrige→verde, antes do push):**
+- Bug pego pelo próprio gate: `bootstrap --check` chamava
+  `validate-registry.py`, que chama `bootstrap --check` — recursão infinita.
+  Fix: `--check` faz verificações próprias (assets + logger + index parse);
+  no CI os dois são steps independentes.
+- `Gate - Compat` flaggerou o próprio HISTORY.md (pin antigo citado como
+  fato histórico). Exceção consciente e documentada no validator: HISTORY.md
+  fora do grep de pins (narrativa de auditoria); pins vivos seguem gateados.
+- Resultado local final: Registry ✓ · bootstrap --check ✓ · Compat ✓ (PB
+  0.40.4 · SDK 0.28.1, conferido contra a API) · Sintaxe ✓ (4 JSON, YAML,
+  bash -n, compileall).

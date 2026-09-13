@@ -1,20 +1,31 @@
 {
-	"version": "1.4.0",
-	"organization": "Community",
-	"date": "August 2026",
-	"abstract": "Comprehensive PocketBase development best practices and performance optimization guide. Contains 64 rules across 9 categories, prioritized by impact from critical (collection design, API rules, authentication) to incremental (production deployment). Includes server-side extending rules for Go and JavaScript (JSVM). Updated for PocketBase v0.40.0 and JS SDK v0.28.0: Go 1.27 / encoding/json/v2 upgrade cautions, non-zero exit code propagation, superuser IP/CIDR whitelisting (v0.38), realtime 30min absolute connection timeout, OAuth2 pre-linking hijack fix (run >=0.38.2), log truncation limits and pb.logs.truncate(), SQL console positioning, lock-free backups. Each rule includes detailed explanations, incorrect vs. correct code examples, and specific guidance to help AI agents generate better PocketBase code.",
-	"references": [
-		"https://pocketbase.io/docs/",
-		"https://github.com/pocketbase/pocketbase",
-		"https://github.com/pocketbase/js-sdk",
-		"https://pocketbase.io/docs/api-records/",
-		"https://pocketbase.io/docs/api-rules-and-filters/",
-		"https://pocketbase.io/docs/go-overview/",
-		"https://pocketbase.io/docs/js-overview/",
-		"https://pocketbase.io/docs/go-migrations/",
-		"https://pocketbase.io/docs/go-jobs-scheduling/",
-		"https://pocketbase.io/docs/js-jobs-scheduling/",
-		"https://pocketbase.io/docs/going-to-production/",
-		"https://pocketbase.io/docs/going-to-production/#limit-superusers-to-specific-ipssubnets"
-	]
+  "skill_name": "pocketbase-best-practices",
+  "version": "1.4.0",
+  "entrypoint": "./SKILL.md",
+  "summary": "64 regras em 9 categorias (design de collections, API rules, autenticação, queries, realtime, arquivos, deploy, extending Go/JSVM), priorizadas por impacto e anotadas por versão do PocketBase.",
+  "dependencies": ["pocketbase"],
+  "capabilities": [
+    "collection-design",
+    "api-rules",
+    "authentication",
+    "query-optimization",
+    "realtime",
+    "file-handling",
+    "production-deployment",
+    "server-side-extending"
+  ],
+  "compatibility": {
+    "pocketbase": ">=0.36",
+    "js_sdk": ">=0.28"
+  },
+  "provides": {
+    "rules": "rules/",
+    "references": "references/"
+  },
+  "meta": {
+    "organization": "Community",
+    "date": "August 2026",
+    "rules_count": 64,
+    "upstream": "https://github.com/greendesertsnow/pocketbase-skills"
+  }
 }

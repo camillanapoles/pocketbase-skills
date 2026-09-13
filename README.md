@@ -1,27 +1,30 @@
-# pocketbase-skill
+# pocketbase-skills
 
-Agent Skills for operating a [PocketBase](https://pocketbase.io/) v0.23+ backend via REST API.
+Agent Skills cluster for building apps with [PocketBase](https://pocketbase.io/) (v0.23+, validated against **v0.40.4**) + React.
 
 Compatible with the [Agent Skills](https://github.com/vercel-labs/skills) specification.
+
+> **Agents:** start at [`INDEX.md`](INDEX.md) — the registry hub (skills, capabilities, dependency graph, context-loader contract).
+> **Canonical map:** [`index.json`](index.json) · **Global rules:** [`GLOBAL_RULES.md`](GLOBAL_RULES.md) · **WAL:** [`HISTORY.md`](HISTORY.md)
 
 ## Skills
 
 | Skill | Description |
 |-------|-------------|
-| `pocketbase` | Collection CRUD, record CRUD, superuser/user authentication, backup & restore, migration file generation, and design guidance for API rules, relations, and security patterns |
-| `pb-react-spa` | React SPA frontend setup for PocketBase — Vite + TanStack Router + TanStack Query + Tailwind/Shadcn UI + Biome |
+| [`pocketbase`](pocketbase/SKILL.md) | Collection CRUD, record CRUD, superuser/user authentication, backup & restore, migration file generation, and design guidance for API rules, relations, and security patterns |
+| [`pb-react-spa`](pb-react-spa/SKILL.md) | React SPA frontend setup for PocketBase — Vite + TanStack Router + TanStack Query + Tailwind/Shadcn UI + Biome |
+| [`pocketbase-best-practices`](pocketbase-best-practices/SKILL.md) | 64 prioritized rules: schema design, API rules, auth, queries, realtime, files, deployment, Go/JSVM extending |
 
-## Installation
-
-```bash
-npx skills add 
-```
-
-Or install a specific skill:
+## Scaffolding a full project (backend + optional SPA)
 
 ```bash
-npx skills add 
+bash scripts/bootstrap-project.sh myapp --frontend
 ```
+
+## CI/CD (GitOps, deterministic gates)
+
+- `Sintaxe (JSON/YAML/Shell/Python)` · `Gate - Registry` (index ↔ metadata ↔ DAG ↔ symlinks) · `Gate - Compat` (cluster versions vs upstream latest, fail-closed)
+- main is protected: changes land via PR with all required checks green; tags `v*` cut verified releases.
 
 ## Prerequisites
 

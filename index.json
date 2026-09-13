@@ -1,0 +1,92 @@
+{
+  "registry_version": "1.0.0",
+  "cluster": "pocketbase-skills",
+  "description": "Cluster de skills para desenvolvimento com PocketBase: operação de backend via REST (pocketbase), SPA React com TanStack Router/Query (pb-react-spa) e best-practices de design/segurança/deploy (pocketbase-best-practices). Registry & Orchestration: este arquivo é o mapa canônico — qualquer agente entra por aqui.",
+  "compatibility": {
+    "pocketbase": "0.40.4",
+    "js_sdk": "0.28.1",
+    "verified_at": "2026-09-13",
+    "policy": "Gate - Compat (CI) exige que os minors acima casem com as releases latest upstream; upstream avançou => gate vermelho => atualize o cluster no branch."
+  },
+  "global_rules": "./GLOBAL_RULES.md",
+  "shared": "./.shared",
+  "orchestrator": "./scripts/bootstrap-project.sh",
+  "skills": [
+    {
+      "name": "pocketbase",
+      "path": "./pocketbase",
+      "entrypoint": "SKILL.md",
+      "version": "1.0.0",
+      "summary": "Operação de backend PocketBase via REST API e Go package mode: CRUD de collections/records, auth de superuser/user, backups, health, geração de migrações (JS/Go), hooks Go e guias de API rules/relações/segurança.",
+      "dependencies": [],
+      "capabilities": [
+        "server-setup",
+        "superuser-auth",
+        "collection-management",
+        "record-crud",
+        "backups",
+        "health-check",
+        "migrations",
+        "e2e-testing",
+        "config-management"
+      ],
+      "interfaces": {
+        "scripts": "scripts/*.py",
+        "references": "references/*.md",
+        "assets": "assets/"
+      }
+    },
+    {
+      "name": "pb-react-spa",
+      "path": "./pb-react-spa",
+      "entrypoint": "SKILL.md",
+      "version": "1.0.0",
+      "summary": "SPA React para consumir PocketBase: Vite + TanStack Router + TanStack Query + Tailwind/shadcn + Biome, com JS SDK, typegen, padrões de auth e deployment.",
+      "dependencies": ["pocketbase"],
+      "capabilities": [
+        "scaffold-frontend",
+        "generate-hooks",
+        "setup-auth-provider",
+        "typegen",
+        "deployment"
+      ],
+      "symlinks": [
+        {
+          "path": "pb-react-spa/references/pocketbase-api.md",
+          "target": "pocketbase/references/api-rules-guide.md",
+          "reason": "Contrato de API rules compartilhado — dados de uma skill alimentam a outra sem duplicar arquivo."
+        },
+        {
+          "path": "pb-react-spa/references/best-practices.md",
+          "target": "pocketbase-best-practices/SKILL.md",
+          "reason": "Índice de regras de segurança/performance aplicáveis ao frontend."
+        }
+      ],
+      "interfaces": {
+        "references": "references/*.md"
+      }
+    },
+    {
+      "name": "pocketbase-best-practices",
+      "path": "./pocketbase-best-practices",
+      "entrypoint": "SKILL.md",
+      "version": "1.4.0",
+      "summary": "64 regras em 9 categorias (design de collections, API rules, autenticação, queries, realtime, arquivos, deploy, extending Go/JSVM), priorizadas por impacto e anotadas por versão do PocketBase.",
+      "dependencies": ["pocketbase"],
+      "capabilities": [
+        "collection-design",
+        "api-rules",
+        "authentication",
+        "query-optimization",
+        "realtime",
+        "file-handling",
+        "production-deployment",
+        "server-side-extending"
+      ],
+      "interfaces": {
+        "rules": "rules/*.md",
+        "references": "references/*.md"
+      }
+    }
+  ]
+}
