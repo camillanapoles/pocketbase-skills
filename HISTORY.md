@@ -131,6 +131,22 @@ tags ↔ releases 1:1 · gates locais verdes · main = b9c41bf.
 - Pós-merge de TODO PR: conferir `git branch -r` — deletar sobras com
   `git push origin --delete` (falha de push em branch já deletado = benigna).
 
+## 2026-09-14 — validação e análise completa do projeto
+
+**Verificação executada:** bootstrap de continuidade (R9) · 3 gates locais
+verdes · upstream ainda em dia (PB 0.40.4 / SDK 0.28.1) · 0 PRs abertos ·
+7/7 runs success · scaffold backend testado funcionalmente em tmp (gerou
+pb_migrations/ + .env + .gitignore + README) · auditoria de links e
+frontmatter (pi: descriptions ≤1024 OK nas 4 skills).
+
+**2 bugs encontrados e corrigidos (este branch):**
+1. `README.md` linkava `LICENSE.txt` que nunca existiu → criado `LICENSE`
+   (MIT) — torna real a alegação de licença de todas as skills.
+2. Log do scaffold dizia "skill: pocketbase" → `pocketbase-core`.
+
+Falso-positivo descartado: description do best-practices é single-line
+(399 chars, OK) — bug do extrator de teste, não do skill.
+
 ## Estado para a próxima sessão
 
 - main = v1.1.0 (entrada integrativa `pocketbase` + sub-skills pocketbase-core
