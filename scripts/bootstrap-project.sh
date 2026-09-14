@@ -43,7 +43,7 @@ if [ -e "$TARGET" ]; then
   exit 1
 fi
 
-log_info "Scaffolding backend (skill: pocketbase) em $TARGET"
+log_info "Scaffolding backend (skill: pocketbase-core) em $TARGET"
 mkdir -p "$TARGET/pb_migrations"
 TS="$(date +%s)"
 cp "$ROOT/pocketbase-core/assets/migration-template.js" "$TARGET/pb_migrations/${TS}_init.js"
